@@ -22,3 +22,15 @@
     group: root
     mode: '0644'
     backup: yes  # opcional: conserva backup anterior si ya existe .bak
+
+- name: Copiar el archivo logrotate.conf desde template
+  ansible.builtin.template:
+    src: logrotate.conf.j2
+    dest: /etc/logrotate.conf
+    owner: root
+    group: root
+    mode: '0644'
+    
+- name: Forzar ejecución de logrotate con nueva configuración
+  ansible.builtin.command: logrotate -f /etc/logrotate.conf
+  become: yes
