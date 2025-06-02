@@ -1,0 +1,25 @@
+# see "man logrotate" for details
+# rotate log files {{ default_rotation_frequency | default('daily') }}
+{{ default_rotation_frequency | default('daily') }}
+
+
+# Configure the filelog size 
+size {{ default_size_file | default('100M') }}
+
+# keep {{ default_rotation_count | default(4) }} weeks worth of backlogs
+rotate {{ default_rotation_count | default(4) }}
+
+# create new (empty) log files after rotating old ones
+create
+
+# use date as a suffix of the rotated file
+#dateext
+
+# uncomment this if you want your log files compressed
+compress
+
+# packages drop log rotation information into this directory
+include /etc/logrotate.d
+
+
+# system-specific logs may also be configured here.

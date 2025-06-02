@@ -1,0 +1,6 @@
+---
+- name: Instalar y configurar Logrotate
+  hosts: debian_servers
+  become: yes  # Necesario para instalar paquetes y modificar archivos del sistema
+  roles:
+    - logrotate
