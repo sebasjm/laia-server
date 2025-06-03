@@ -30,7 +30,32 @@
     owner: root
     group: root
     mode: '0644'
-    
+
+- name: Verificar si existe el archivo /etc/logrotate.d/nginx
+  ansible.builtin.stat:
+    path: /etc/logrotate.d/nginx
+  register: nginx_logrotate_file
+
+- name: Realizar copia de seguridad de logrotate nginx
+  ansible.builtin.copy:
+    src: /etc/logrotate.d/nginx
+    dest: /etc/logrotate.d/nginx.bak
+    remote_src: yes
+    owner: root
+    group: root
+    mode: '0644'
+  when: nginx_logrotate_file.stat.exists 
+
+
+- name: Copiar configuración de logrotate para nginx
+  ansible.builtin.template:
+    src:  nginx-logrotate.conf.j2
+    dest: /etc/logrotate.d/nginx
+    owner: root
+    group: root
+    mode: '0644'
+  become: yes
+
 - name: Forzar ejecución de logrotate con nueva configuración
   ansible.builtin.command: logrotate -f /etc/logrotate.conf
   become: yes

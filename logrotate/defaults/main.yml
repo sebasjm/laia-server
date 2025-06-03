@@ -3,14 +3,5 @@
 default_rotation_frequency: daily
 default_rotation_count: 4
 default_size_file: "100M"
-# Variables para la configuración de custom_app
-#deploy_custom_app_logrotate: true
-#custom_app_logrotate_filename: "custom_app"
-#custom_app_log_path: "/var/log/custom_app/*.log"
-#custom_app_log_frequency: "daily"
-#custom_app_log_rotate_count: 7
-#custom_app_log_user: "syslog"
-#custom_app_log_group: "adm"
 
-#deploy_another_app_logrotate: false
 
