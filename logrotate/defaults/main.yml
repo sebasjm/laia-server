@@ -1,0 +1,7 @@
+---
+# defaults file for logrotate
+default_rotation_frequency: daily
+default_rotation_count: 4
+default_size_file: "100M"
+
+
