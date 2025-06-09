@@ -1,0 +1,42 @@
+---
+- name: Check if otelcol binary exists
+  ansible.builtin.stat:
+    path: /usr/bin/otelcol-contrib
+  register: otelcol_binary_check
+
+- name: Download OpenTelemetry Collector
+  ansible.builtin.get_url:
+    url: "{{ otel_url }}"
+    dest: /tmp/otelcol.deb
+    mode: '0644'
+  when: not otelcol_binary_check.stat.exists
+
+
+- name: Install otelcol
+  ansible.builtin.apt:
+    deb: /tmp/otelcol.deb
+  when: not otelcol_binary_check.stat.exists
+
+
+- name: Backup of otel config
+  ansible.builtin.copy:
+    src: /etc/otelcol-contrib/config.yaml
+    dest: /etc/otelcol-contrib/config.yaml.bak
+    remote_src: true
+    owner: root
+    mode: '0644'
+
+- name: Apply to file jinja2
+  ansible.builtin.template:
+    src: otel-config.j2
+    dest: /etc/otelcol-contrib/config.yaml
+    owner: root
+    group: root
+    mode: '0644'
+  notify: Reboot otelcol
+
+- name: Check if otel service is ok
+  ansible.builtin.systemd:
+    name: otelcol-contrib.service
+    enabled: true
+    state: started

@@ -1,0 +1,49 @@
+---
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks.git
+    rev: v5.0.0
+    hooks:
+      - id: check-added-large-files
+      - id: check-merge-conflict
+      - id: check-symlinks
+      - id: debug-statements
+      - id: detect-private-key
+      - id: end-of-file-fixer
+        exclude: >
+          (?x)^( test/eco/.*.result| examples/yamllint/.*|
+          test/fixtures/formatting-before/.*|
+          test/fixtures/formatting-prettier/.*
+          )$
+      - id: trailing-whitespace
+        exclude: |
+          (?x)^(
+            examples/playbooks/(with-skip-tag-id|unicode).yml|
+            examples/playbooks/example.yml|
+            examples/yamllint/.*|
+            test/eco/.*.result|
+            test/fixtures/formatting-before/.*
+          )$
+      - id: mixed-line-ending
+      - id: fix-byte-order-marker
+      - id: check-executables-have-shebangs
+      - id: check-merge-conflict
+      - id: debug-statements
+        language_version: python3
+
+  - repo: https://github.com/adrienverge/yamllint.git
+    rev: v1.37.1
+    hooks:
+      - id: yamllint
+        exclude: |
+          (?x)^(
+            examples/playbooks/templates/.*|
+            examples/yamllint/.*|
+            examples/other/some.j2.yaml|
+            examples/playbooks/collections/.*|
+            test/fixtures/formatting-before/.*
+          )$
+        files: \.(yaml|yml)$
+        types:
+          - file
+          - yaml
+        entry: yamllint --strict
