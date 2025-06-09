@@ -1,6 +1,5 @@
 # laia-server
-# moodleobservability
-Observability for Moodle using OpenTelemetry (OTEL)
+
 
 ![image](https://img.shields.io/badge/Ansible-000000?style=for-the-badge&logo=ansible&logoColor=white)
 
