@@ -1,0 +1,6 @@
+---
+- name: Desplegar OpenTelemetry Collector
+  hosts: otel
+  become: true
+  roles:
+    - otel_collector

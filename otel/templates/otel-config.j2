@@ -1,10 +1,12 @@
 
+
 extensions:
   basicauth/grafana_cloud:
     # https://github.com/open-telemetry/opentelemetry-collector-contrib/tree/main/extension/basicauthextension
     client_auth:
       username: "{{ grafana_cloud_username }}"
       password: "{{ grafana_cloud_password }}"
+
 receivers:
   otlp:
     # https://github.com/open-telemetry/opentelemetry-collector/tree/main/receiver/otlpreceiver
@@ -12,22 +14,13 @@ receivers:
       grpc:
       http:
   hostmetrics:
-    collection_interval: 30s
     # Optional. Host Metrics Receiver added as an example of Infra Monitoring capabilities of the OpenTelemetry Collector
     # https://github.com/open-telemetry/opentelemetry-collector-contrib/tree/main/receiver/hostmetricsreceiver
     scrapers:
       load:
-      cpu:
-      disk:
       memory:
-      network:
 
 processors:
-  resource/add_service_name:
-    attributes:
-      - key: service.name
-        value: "vps-5031118-x"
-        action: insert
   batch:
     # https://github.com/open-telemetry/opentelemetry-collector/tree/main/processor/batchprocessor
   resourcedetection:
@@ -95,13 +88,13 @@ service:
   pipelines:
     traces:
       receivers: [otlp]
-      processors: [resource/add_service_name,resourcedetection, transform/drop_unneeded_resource_attributes, batch]
+      processors: [resourcedetection, transform/drop_unneeded_resource_attributes, batch]
       exporters: [otlphttp/grafana_cloud]
     metrics:
       receivers: [otlp, hostmetrics]
-      processors: [resource/add_service_name,resourcedetection, transform/drop_unneeded_resource_attributes, transform/add_resource_attributes_as_metric_attributes, batch]
+      processors: [resourcedetection, transform/drop_unneeded_resource_attributes, transform/add_resource_attributes_as_metric_attributes, batch]
       exporters: [otlphttp/grafana_cloud]
     logs:
       receivers: [otlp]
-      processors: [resource/add_service_name,resourcedetection, transform/drop_unneeded_resource_attributes, batch]
+      processors: [resourcedetection, transform/drop_unneeded_resource_attributes, batch]
       exporters: [otlphttp/grafana_cloud]
