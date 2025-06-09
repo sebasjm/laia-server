@@ -17,7 +17,7 @@ rpm-build
 .idea
 #IntelliJ IDEA stuff..
 *.iml
-#VSCode stuff..
+#git checkouode stuff..
 .vscode/
 # Mac OS X stuff...
 .DS_Store
